@@ -102,7 +102,7 @@ export default {
     width: 40.5rem;
     height: 25rem;
     border: 0.0625rem solid #ccc;
-    margin: 100px auto;
+    margin: 6.25rem auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -129,13 +129,12 @@ export default {
         z-index: 9999;
     }
     .input-container{
-        width: 500px;
         padding: 1.25rem;
         background: #fff;
         transition: bottom .8 linear 0s;
-        margin-top: 20px;
+        margin-top: 1.25rem;
         .form-container{
-            width: 500px;
+            width: 31.25rem;
             .input-box{
                 display: flex;
                 justify-content: space-between;

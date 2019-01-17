@@ -40,8 +40,12 @@
                 </el-menu>
             </el-aside>
         </el-container>
-        <router-view class="view-container">
-		</router-view>
+        <div class="view-container">
+				<transition name="router-slid" mode="out-in">
+					<router-view>
+					</router-view>
+				</transition>
+		</div>
     </div>
 </template>
 
@@ -51,10 +55,17 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>  
+<style lang="scss" scoped> 
+a:hover{
+    color: #000;
+}
+a{
+    color:#fff;
+}
 .page-container{
-    width: 100%;
+    width: 94.9375rem;
     height: 100%;
+    display: flex;
     .el-container{
         width: 100%;
         height: 100%;
@@ -76,7 +87,7 @@ export default {
             color: #333;
             min-height: 40.1875rem;
             background: #000;
-            height:683 px;
+            min-height:1000px;
             .el-menu{
                 border-right:0rem;
                 background: #000;;
@@ -95,10 +106,21 @@ export default {
             }
         }
     }
-}
-.view-container{
-    position: absolute;
-    top: 3.75rem;
-    left: 12.5rem;
+    .view-container{
+        overflow: hidden;
+        position: absolute;
+        top: 3.75rem;
+        left: 12.5rem;
+        width: 82.4375rem;
+        background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547747830330&di=76fc61899c3d282a51835a4b42f3d9a4&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201511%2F25%2F20151125141303_c2LyT.thumb.700_0.gif') ;
+        background-size:100% 100%;
+		.router-slid-enter-active, .router-slid-leave-active {
+				transition: all .6s;
+		}
+		.router-slid-enter, .router-slid-leave-active {
+				transform: translate3d(60rem, 0, 0);
+				opacity: 0;
+		}
+    }
 }
 </style>
