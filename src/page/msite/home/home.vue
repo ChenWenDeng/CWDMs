@@ -146,6 +146,8 @@ export default {
     margin: 1.25rem auto;
 }
 .home-container{
+    background: #fff;
+    height: 990px;
     .statistics-box{
        p{
             width: 100%;
