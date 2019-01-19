@@ -14,21 +14,21 @@
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-document"></i>数据管理</template>
                         <el-menu-item-group>
-                        <el-menu-item index="1-1">
-                            <router-link to="/msite/userList">
+                        <router-link to="/msite/userList">
+                            <el-menu-item index="1-1">
                                 用户列表
+                            </el-menu-item>
                             </router-link>
-                        </el-menu-item>
-                        <el-menu-item index="1-2">
-                            <router-link to="/msite/goodList">
+                        <router-link to="/msite/goodList">
+                            <el-menu-item index="1-2">
                                 商品列表
-                            </router-link>
-                        </el-menu-item>
-                        <el-menu-item index="1-3">
-                            <router-link to="/msite/orderList">
+                            </el-menu-item>
+                        </router-link>
+                        <router-link to="/msite/orderList">
+                            <el-menu-item index="1-3">
                                 订单列表
-                            </router-link>
-                        </el-menu-item>
+                            </el-menu-item>
+                        </router-link>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
@@ -56,12 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped> 
-a:hover{
-    color: #000;
-}
-a{
-    color:#fff;
-}
 .page-container{
     width: 94.9375rem;
     height: 100%;
@@ -84,8 +78,6 @@ a{
             }
         }
         .el-aside {
-            color: #333;
-            min-height: 40.1875rem;
             background: #000;
             min-height:1000px;
             .el-menu{
@@ -121,6 +113,58 @@ a{
 				transform: translate3d(60rem, 0, 0);
 				opacity: 0;
 		}
+    }
+}
+</style>
+
+<style lang="scss">
+.page-container{
+    .el-header{
+        a{
+            color:#fff;
+        }
+        position:fixed;
+        left:0px;
+        right: 0px;
+        top:0px;
+        width:100%;height:30px;position:fixed;top:0;left:0;
+        z-index: 2;
+    }
+    .el-aside{
+        position:fixed;
+        left:0px;
+        top:60px;
+        background:red;
+        z-index: 1;
+        .el-submenu__title{
+            color:#fff;
+        }
+        .el-submenu__title:active{
+            a{
+                color:#000;
+            }
+        }
+        .el-submenu__title:hover{
+            color:#000;
+        }
+        .el-menu-item:active{
+            a{
+                color:#000;
+            }
+        }
+        .el-menu-item:hover{
+            a{
+                color:#000;
+            }
+        }
+        .el-menu-item{
+            &.is-active{
+                background:	#989898;
+            }
+        }
+        a{
+            color:#fff;
+        }
     }
 }
 </style>
