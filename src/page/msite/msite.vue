@@ -7,7 +7,10 @@
                         Eend商城后台管理系统
                     </router-link>
                 </div>
-                <span>用户名</span>
+                <span class="logout-span" @click="logout">
+                    {{adminName}}
+                    <span v-if="adminName">退出</span>
+                </span>
             </el-header>
             <el-aside width="200px">
                 <el-menu :default-openeds="['1', '3']">
@@ -18,7 +21,7 @@
                             <el-menu-item index="1-1">
                                 用户列表
                             </el-menu-item>
-                            </router-link>
+                        </router-link>
                         <router-link to="/msite/goodList">
                             <el-menu-item index="1-2">
                                 商品列表
@@ -50,8 +53,55 @@
 </template>
 
 <script>
+import axios from 'axios'
+import {mapState} from 'vuex'
 export default {
-    
+    data(){
+        return{
+            adminNames:'',//保存管理员用户名
+            adminId: 0
+        }
+    },
+    methods:{
+        checkLogin(){
+		    axios.get("api/admins/checkLogin").then((response) =>{
+                let res = response.data;
+				if(res.status == "0"){
+					this.adminNames = res.result.adminName;
+					this.adminId = res.result.adminId;
+					console.log('this.adminName===' +this.adminNames)
+
+					//修改用户名状态 拿到用户名 登录功能
+                    this.$store.dispatch('recordAdminName',this.adminNames)	
+                    
+					this.$store.dispatch('recordAdminId',this.adminId)
+				}
+			})
+        },
+        //用户登出功能
+		logout(){
+			axios.post("api/admins/logout").then((response) =>{
+				let res = response.data;
+				if(res.status == "0"){					
+					//修改用户名状态 修改为空 退出功能
+					this.$store.dispatch('recordAdminName','')
+						
+					//修改用户id状态 修改为0 退出功能
+                   this.$store.dispatch('recordAdminId',0)
+                    
+                    this.$router.push({path:'/'});
+				}else{
+					console.log('失败'+res.msg)
+				}
+			})
+		},
+    },
+    computed:{
+		...mapState(['adminName'])
+    },
+    mounted(){
+        this.checkLogin()
+    }
 }
 </script>
 
@@ -60,6 +110,11 @@ export default {
     width: 94.9375rem;
     height: 100%;
     display: flex;
+    .logout-span{
+        display: inline-block;
+        width: 100px;
+        cursor:pointer;
+    }
     .el-container{
         width: 100%;
         height: 100%;

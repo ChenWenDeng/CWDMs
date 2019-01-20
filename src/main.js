@@ -43,3 +43,22 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+
+router.beforeEach((to, from, next) => {
+  //store中定义获取用户信息的函数  adminId
+  //adminId为空说明用户未登录
+  let adminId = store.state.adminId;
+  if (adminId==0) {//未登录
+      if (to.path !== '/') {//跳转到登录页
+          return next({path: '/'});
+      }else {
+          next();
+      }
+  }else {//已登录
+      if (to.path === '/msite') {//跳转到首页
+          return next({path: '/msite'});
+      }
+      next();
+  }
+});
