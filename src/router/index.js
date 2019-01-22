@@ -8,6 +8,7 @@ const userList = () => import('./../page/msite/userList/userList') //后台系�
 const goodList = () => import('./../page/msite/goodList/goodList') //后台系统商品列表
 const orderList = () => import('./../page/msite/orderList/orderList') //后台系统订单列表
 const orderDetails = () => import('./../page/msite/orderList/orderDetails/orderDetails') //后台系统订单列表订单详情
+const addGoods = () => import('./../page/msite/addGoods/addGoods') //后台系统添加商品
 
 Vue.use(Router)
 
@@ -48,6 +49,10 @@ export default new Router({
               component: orderDetails
             }
           ]
+        },
+        {
+          path:'/msite/addGoods',
+          component: addGoods
         },
       ]
     },

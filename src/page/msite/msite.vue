@@ -37,7 +37,9 @@
                     <el-submenu index="2">
                         <template slot="title"><i class="el-icon-plus"></i>添加数据</template>
                         <el-menu-item-group>
-                        <el-menu-item index="2-1">添加商品</el-menu-item>
+                            <router-link to="/msite/addGoods">
+                                 <el-menu-item index="2-1">添加商品</el-menu-item>
+                            </router-link>
                         </el-menu-item-group>
                     </el-submenu>
                 </el-menu>
