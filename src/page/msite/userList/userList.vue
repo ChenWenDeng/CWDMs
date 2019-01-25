@@ -33,20 +33,24 @@
                 <li>商品id</li>
                 <li>商品图片</li>
                 <li class="ellipsis">商品名称</li>
+                <li>颜色</li>
+                <li>尺寸</li>
                 <li>单价</li>
                 <li>数量</li>
                 <li>选中状态</li>
               </ul>
               <h1 v-if="user.cartList.length==0">用户购物车暂未添加任何商品！<span class="iconfont icon-meiyoudingdan-01"></span></h1>
               <ul class="goods-ul" v-for="(useres,index) in user.cartList" :key="index">
-                  <li v-for="(carts,index) in useres.details"> {{carts.productId}}</li>
-                  <li v-for="(carts,index) in useres.details">
+                    <li v-for="(carts,index) in useres.details"> {{carts.productId}}</li>
+                    <li v-for="(carts,index) in useres.details">
                     <img :src="carts.smImg[0]" alt="">
-                  </li>
-                  <li class="ellipsis" v-for="(carts,index) in useres.details"> {{carts.productName}}</li>
-                  <li v-for="(carts,index) in useres.details"> {{carts.salePrice}}</li>
-                  <li v-for="(carts,index) in useres.details"> {{carts.num}}</li>
-                  <li v-for="(carts,index) in useres.details"> {{carts.checked==1?'选中':'未选中'}}</li>
+                    </li>
+                    <li class="ellipsis" v-for="(carts,index) in useres.details"> {{carts.productName}}</li>
+                    <li v-for="(carts,index) in useres.details">{{carts.colours}}</li>
+                    <li v-for="(carts,index) in useres.details">{{carts.sizes}}</li>
+                    <li v-for="(carts,index) in useres.details">{{carts.salePrice}}</li>
+                    <li v-for="(carts,index) in useres.details">{{carts.num}}</li>
+                    <li v-for="(carts,index) in useres.details">{{carts.checked==1?'选中':'未选中'}}</li>
                 </ul>
             </el-collapse-item>  
           </el-collapse>
@@ -166,6 +170,10 @@ export default {
               let res = response.data;
               if (res.status == '0') {
                 console.log('成功')
+                //vuex 管理员用户名
+                this.$store.dispatch('recordAdminName','')
+                //vuex 管理员id
+                this.$store.dispatch('recordAdminId',0)
                 this.init()
               } else {
                 console.log('失败' + res.msg)

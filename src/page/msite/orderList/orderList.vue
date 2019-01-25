@@ -42,7 +42,7 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="page"
-                :page-sizes="[4]" 
+                :page-sizes="[8]" 
                                  
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="searchList.length==0?tatolCount:searchCount" v-if="orderList.length !=0 || searchList.length!=0">    
@@ -62,7 +62,7 @@ export default {
     data(){
         return{
             page:1, //当前第的页数
-            pageSize:4, //一次有几条数据
+            pageSize:8, //一次有几条数据
             orderList:[],//接收商品列表
             tatolCount:0,//商品列表总数
             searchName:'',//搜索关键字

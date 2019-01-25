@@ -46,9 +46,11 @@
         <div class="details-container">
             <span class="title">商品信息</span>
             <ul class="title-ul">
-                <li>商品ID</li>
+                <li class="ellipsis">商品ID</li>
                 <li>商品图片</li>
                 <li class="ellipsis">商品名称</li>
+                <li>颜色</li>
+                <li>尺寸</li>
                 <li>单价</li>
                 <li>数量</li>
                 <li>小计</li>
@@ -56,11 +58,13 @@
             <div class="goods-container">
                 <ul class="goods-ul" v-for="(goods, index) in orderDetailsList.goodsList" :key="index">
                 <!-- <ul class="goods-ul"> -->
-                    <li>{{goods.productId}}</li>
+                    <li class="ellipsis">{{goods.productId}}</li>
                      <li>
                          <img :src="goods.smImg[0]" alt="">
                      </li>
                     <li class="ellipsis">{{goods.productName}}</li>
+                    <li>{{goods.colours}}</li>
+                    <li>{{goods.sizes}}</li>
                     <li>{{goods.salePrice}}</li>
                     <li>{{goods.num}}</li>
                     <li>{{goods.salePrice*goods.num}}</li>

@@ -1,26 +1,28 @@
 <template>
     <div class="goodsList-container">
         <ul class="title-ul">
-            <li>商品ID</li>
-            <li>缩略图</li>
+            <li class="ellipsis">发布时间</li>
+            <li class="ellipsis">商品ID</li>
+            <li >缩略图</li>
             <li class="ellipsis">商品名称</li>
             <li>单价</li>
             <li>商品动画</li>
-            <li>
+            <li class="ellipsis">
                 <input class="search-input" type="text" v-model="searchName" placeholder="输入关键字搜索">
             </li>
         </ul>
         <!-- ======================   全部商品列表  ==================== -->
         <div class="goods-container" v-if="searchName==''">
             <ul class="goods-ul" v-for="(goods, index) in goodsList" :key="index">
-                <li>{{goods.productId}}</li>
+                <li class="ellipsis">{{goods.createDate}}</li>
+                <li class="ellipsis">{{goods.productId}}</li>
                 <li>
                     <img v-lazy="goods.productImage" :key="goods.productImage" alt="">
                 </li>
                 <li class="ellipsis">{{goods.productName}}</li>
                 <li>{{goods.salePrice}}</li>
                 <li>{{goods.direction}}</li>
-                <li> 
+                <li class="ellipsis"> 
                     <el-button type="primary" icon="el-icon-edit" circle></el-button>
                     <el-button @click="delGoods(goods.productId)" type="danger" icon="el-icon-delete" circle></el-button>
                 </li>
@@ -29,14 +31,15 @@
          <!-- ======================   搜索商品列表  ==================== -->
         <div class="search-goods-container" v-if="searchCount!=0">
             <ul class="goods-ul" v-for="(goods, index) in searchList" :key="index">
-                <li>{{goods.productId}}</li>
+                <li class="ellipsis">{{goods.createDate}}</li>
+                <li class="ellipsis">{{goods.productId}}</li>
                 <li>
                     <img v-lazy="goods.productImage" :key="goods.productImage" alt="">
                 </li>
                 <li class="ellipsis">{{goods.productName}}</li>
                 <li>{{goods.salePrice}}</li>
                 <li>{{goods.direction}}</li>
-                <li> 
+                <li class="ellipsis"> 
                     <el-button type="primary" icon="el-icon-edit" circle></el-button>
                     <el-button @click="delGoods(goods.productId)" type="danger" icon="el-icon-delete" circle></el-button>
                 </li>
@@ -224,18 +227,20 @@ export default {
             width: 100%;
             display: flex;
             background: #fff;
+            font-size: 13px;
             &.goods-ul:hover{
                 background: #f5f5f8;
                 cursor:pointer;
             }
             li{
                 width: 12.5rem;
-                padding: 0.625rem 1.25rem;
+                padding: 0.625rem 10px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 &.ellipsis{
                     display: inline-block;
+                    text-align: center;
                     width: 18.75rem;
                     height: 6.25rem;
                     line-height: 5rem;
