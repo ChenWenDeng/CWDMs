@@ -5,7 +5,7 @@ import {
 	RECEIVE_GOODS_LIST, 	//商品列表
   RECEIVE_GOODS_TATOL_COUNT,//商品列表总数量
   RECEIVE_ADMIN_NAME, //管理员用户名
-	RECEIVE_ADMIN_ID, //管理员id
+  RECEIVE_ADMIN_ID, //管理员id
 
 } from './mutation-types'
 
@@ -33,4 +33,5 @@ export default {
     commit(RECEIVE_ADMIN_ID,adminId)
 	console.log('actions==='+adminId)
   },
+
 }

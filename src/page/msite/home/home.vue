@@ -3,15 +3,38 @@
         <div class="statistics-box">
             <p>数据统计</p>
             <ul>
-                <li>当日数据</li>
-                <li>新增用户</li>
-                <li>新增订单</li>
+                <li>
+                    <div class="iconfont icon-shangpin-"></div>
+                    商品总数
+                    <div class="data-li">{{goodsNum}}</div>
+                </li>
+                <li>
+                    <div class="iconfont icon-dingdan"></div>
+                    订单总数
+                    <div class="data-li">{{orderNum}}</div>
+                </li>
+                <li>
+                    <div class="iconfont icon-yonghu"></div>
+                    注册用户
+                    <div class="data-li">{{userCount}}</div>
+                </li>
             </ul>
             <ul>
-                <li>总数据</li>
-                <li>注册用户</li>
-                <li>总订单</li>
+                <li class="day-li">
+                    <div class="iconfont icon-yonghu"></div>
+                    当天注册用户
+                    <div class="data-li days-li">{{dayUser}}</div>
+                </li>
+                <li class="day-li">
+                    <div class="iconfont icon-dingdan"></div>
+                    当天订单数量
+                    <div class="data-li days-li">{{dayOrder}}</div>
+                </li>
             </ul>
+        </div>
+        <div class="header-box">
+            <span><i></i>当天用户</span>
+            <span class="span2"><i></i>当天订单</span>
         </div>
         <div class="power_chart">
                 <chart :options="operationAnalysisOfAssetAllocation" style="width: 100%;height:100%;" ref="echarts1" ></chart>
@@ -20,9 +43,35 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data(){
         return{
+            goodsCount:0,//商品总数
+            dayUser:0,//当天用户数量
+            userCount:0,//用户总数
+            dayUserList:[],//当天用户数量数组
+            dayOrderList:[],//当天订单数量数组
+            dayOrder:0,//当天用户数量
+            orderCount:0,//用户总数
+            goodsNum:0,//商品数量计时
+            // userNum:0,//用户数量计时
+            orderNum:0,//订单数量计时
+            day1 : 0, //第一天天数
+            day2 : 0, //第二天天数
+            day3 : 0, //第三天天数
+            day4 : 0, //第四天天数
+            day5 : 0, //第五天天数
+            day6 : 0, //第六天天数
+            day7 : 0, //第七天天数
+            myDate1:0, //第一天
+            myDate2:0, //第二天
+            myDate3:0, //第三天
+            myDate4:0, //第四天
+            myDate5:0, //第五天
+            myDate6:0, //第六天
+            myDate7:0, //第七天
+            detaList:[], //折线图x轴 1-7日期
             operationAnalysisOfAssetAllocation: {
                     // 提示框
                     tooltip: {
@@ -55,7 +104,7 @@ export default {
                     xAxis: {
                         type: "category",
                         boundaryGap: false,
-                        data: ['2019-01-11', '2019-01-12', '2019-01-13', '2019-01-14', '2019-01-15', '2019-01-16', '2019-01-17'],
+                        data: [],
                         // scale:false,
                         axisLine: {
                             lineStyle: {
@@ -134,8 +183,118 @@ export default {
                 },
         }
     },
+    methods:{
+        timeNum(){
+            this.intervalId = setInterval(()=>{
+                this.goodsNum++
+                if(this.goodsNum==this.goodsCount){
+                        //停止计时
+                    clearInterval(this.intervalId)
+                }
+            },50)
+            this.intervalId1 = setInterval(()=>{
+                this.orderNum++
+                if(this.orderNum==this.orderCount){
+                        //停止计时
+                    clearInterval(this.intervalId1)
+                }
+            },50)
+            // this.intervalId2 = setInterval(()=>{
+            //     this.userNum++
+            //     if(this.userNum==this.userCount){
+            //             //停止计时
+            //         clearInterval(this.intervalId2)
+            //     }
+            // },50)
+        }
+    },
     mounted(){
-    }
+
+        let myDate = new Date();
+        let FullYear = myDate.getFullYear();
+        let Month = (myDate.getMonth()+1);
+        Month = Month <10?'0'+Month:Mosnth;
+        let day7 = myDate.getDate();
+        let day6 = myDate.getDate()-1;
+        let day5 = myDate.getDate()-2;
+        let day4 = myDate.getDate()-3;
+        let day3 = myDate.getDate()-4;
+        let day2 = myDate.getDate()-5;
+        let day1 = myDate.getDate()-6;
+        
+        this.myDate7 = FullYear+'-'+Month+'-'+day7
+        this.myDate6 = FullYear+'-'+Month+'-'+day6
+        this.myDate5 = FullYear+'-'+Month+'-'+day5
+        this.myDate4 = FullYear+'-'+Month+'-'+day4
+        this.myDate3 = FullYear+'-'+Month+'-'+day3
+        this.myDate2 = FullYear+'-'+Month+'-'+day2
+        this.myDate1 = FullYear+'-'+Month+'-'+day1
+        console.log(this.myDate7)
+        console.log(this.myDate6)
+        console.log(this.myDate5)
+        console.log(this.myDate4)
+        console.log(this.myDate3)
+        console.log(this.myDate2)
+        console.log(this.myDate1)
+
+        this.detaList=[this.myDate1,this.myDate2,this.myDate3,this.myDate4,this.myDate5,this.myDate6,this.myDate7]
+        console.log(this.detaList)
+
+        this.operationAnalysisOfAssetAllocation.xAxis.data = this.detaList
+
+        this.operationAnalysisOfAssetAllocation.series[0].data = this.dayOrderList
+        this.operationAnalysisOfAssetAllocation.series[1].data = this.dayUserList
+
+
+
+        axios.get('api/goods/goodsCount').then((response) => {
+				let res = response.data;
+				if (res.status == '0') {
+                    console.log('成功')
+                    this.goodsCount = res.goodsCont
+				} else {
+					console.log('失败' + res.msg)
+				}
+        })
+        axios.get('api/users/usersNum').then((response) => {
+				let res = response.data;
+				if (res.status == '0') {
+                    console.log('成功')
+                    this.dayUser = res.result.count;
+                    this.userCount = res.result.userCount;
+
+                    this.dayUserList.push(res.result.dayOneUser)
+                    this.dayUserList.push(res.result.dayTwoUser)
+                    this.dayUserList.push(res.result.dayThreeUser)
+                    this.dayUserList.push(res.result.dayFourUser)
+                    this.dayUserList.push(res.result.dayFiveUser)
+                    this.dayUserList.push(res.result.daySixUser)
+                    this.dayUserList.push(res.result.count)
+				} else {
+					console.log('失败' + res.msg)
+				}
+        })
+        axios.get('api/orders/orderNum').then((response) => {
+				let res = response.data;
+				if (res.status == '0') {
+                    console.log('成功')
+                    this.dayOrder = res.result.count;
+                    this.orderCount = res.result.orderCount;
+                    this.dayOrderList.push(res.result.dayOneOrder)
+                    this.dayOrderList.push(res.result.dayTwoOrder)
+                    this.dayOrderList.push(res.result.dayThreeOrder)
+                    this.dayOrderList.push(res.result.dayFourOrder)
+                    this.dayOrderList.push(res.result.dayFiveOrder)
+                    this.dayOrderList.push(res.result.daySixOrder)
+                    this.dayOrderList.push(res.result.count)
+
+                    console.log(this.dayOrderList)
+				} else {
+					console.log('失败' + res.msg)
+				}
+        })
+        this.timeNum()
+    },
 }
 </script>
 
@@ -147,7 +306,30 @@ export default {
 }
 .home-container{
     background: #fff;
-    height: 990px;
+    height: 61.875rem;
+    .header-box{
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        margin-top:5.25rem;
+        span{
+            display: flex;
+            align-items: center;
+            i{
+                display: inline-block;
+                width:3.125rem;
+                height: 0.3125rem;
+                background: rgb(230, 28, 28);
+            }
+        }
+        .span2{
+            margin-left: 1rem;
+            i{
+                background: rgb(226, 117, 54);
+            }
+        }
+    }
     .statistics-box{
        p{
             width: 100%;
@@ -158,18 +340,48 @@ export default {
        ul{
             width: 100%;
             padding: 0.3125rem;
+            padding-left: 3.4375rem;
             display: flex;
             justify-content: center;
+            margin: 1rem 0;
             li{
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 12.5rem;
-                // border: 0.0625rem s/olid #000;
+                height: 6.25rem;;
                 padding: 0.625rem;
-                margin-right: 0.8125rem;
-                background: darkcyan;
+                padding-right: 0px;
+                margin-right: 3rem;
+                background: rgb(56, 140, 196);
                 color: #fff;
+                font-size: 1.25rem;
+                .iconfont{
+                    font-size: 1.875rem;
+                    color:#fff;
+                    margin-right: 0.3125rem;
+                }
+                .data-li{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 7.375rem;
+                    height: 100px;;
+                    padding: 0.625rem;
+                    margin-left: 0.9375rem;
+                    background:rgb(90, 100, 100);
+                    color: #fff;
+                    font-size: 1.75rem;
+                }
+            }
+            .day-li{
+                width: 410px;
+                background: rgb(30, 119, 122);
+                .days-li{
+                    width: 230px;
+                    background: rgb(205, 210, 211);
+                    font-size: 50px;
+                    color:rgb(248, 94, 94);
+                }
             }
        }
     }

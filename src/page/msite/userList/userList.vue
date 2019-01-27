@@ -1,6 +1,6 @@
 <template>
     <div class="usersList-container">
-        <ul class="title-ul">
+        <ul class="title-ul" v-if="userList.length!=0">
             <li>用户ID</li>
             <li>用户名称</li>
             <li class="ellipsis">手机号码</li>
@@ -11,6 +11,7 @@
             </li>
             <li class="icon-li"></li>
         </ul>
+        <h2 v-if="userList.length==0">暂无任何用户！</h2>
         <!-- ======================   全部用户列表  ==================== -->
         <div class="goods-container" v-if="searchName==''">
           <el-collapse accordion>
@@ -161,7 +162,7 @@ export default {
             }
           })
         },
-        //删除商品
+        //删除用户
         delUser(userId){
             console.log(userId)
             axios.post('api/users/delUser', {
