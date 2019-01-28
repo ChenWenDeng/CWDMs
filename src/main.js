@@ -26,6 +26,7 @@ Vue.use(ElementUI);
 //使用axios
 Vue.use(axios);
 
+
 // 全局注册chart组件
 Vue.component('chart', ECharts)
 

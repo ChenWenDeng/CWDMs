@@ -16,7 +16,7 @@
                 <li>
                     <div class="iconfont icon-yonghu"></div>
                     注册用户
-                    <div class="data-li">{{userCount}}</div>
+                    <div class="data-li">{{userNum}}</div>
                 </li>
             </ul>
             <ul>
@@ -44,6 +44,8 @@
 
 <script>
 import axios from 'axios'
+//引入封装的时间戳转日期js文件
+import date from '@/assets/js/time.js'
 export default {
     data(){
         return{
@@ -55,15 +57,15 @@ export default {
             dayOrder:0,//当天用户数量
             orderCount:0,//用户总数
             goodsNum:0,//商品数量计时
-            // userNum:0,//用户数量计时
+            userNum:0,//用户数量计时
             orderNum:0,//订单数量计时
-            day1 : 0, //第一天天数
-            day2 : 0, //第二天天数
-            day3 : 0, //第三天天数
-            day4 : 0, //第四天天数
-            day5 : 0, //第五天天数
-            day6 : 0, //第六天天数
-            day7 : 0, //第七天天数
+            day1 : 0, //第一天时间戳
+            day2 : 0, //第二天时间戳
+            day3 : 0, //第三天时间戳
+            day4 : 0, //第四天时间戳
+            day5 : 0, //第五天时间戳
+            day6 : 0, //第六天时间戳
+            day7 : 0, //第七天时间戳
             myDate1:0, //第一天
             myDate2:0, //第二天
             myDate3:0, //第三天
@@ -184,6 +186,16 @@ export default {
         }
     },
     methods:{
+        //日期
+        dates(){
+            this.myDate7 = date.date(this.day7)
+            this.myDate6 = date.date(this.day6)
+            this.myDate5 = date.date(this.day5)
+            this.myDate4 = date.date(this.day4)
+            this.myDate3 = date.date(this.day3)
+            this.myDate2 = date.date(this.day2)
+            this.myDate1 = date.date(this.day1)
+        },
         timeNum(){
             this.intervalId = setInterval(()=>{
                 this.goodsNum++
@@ -199,54 +211,39 @@ export default {
                     clearInterval(this.intervalId1)
                 }
             },50)
-            // this.intervalId2 = setInterval(()=>{
-            //     this.userNum++
-            //     if(this.userNum==this.userCount){
-            //             //停止计时
-            //         clearInterval(this.intervalId2)
-            //     }
-            // },50)
+            this.intervalId2 = setInterval(()=>{
+                this.userNum++
+                if(this.userNum==this.userCount){
+                        //停止计时
+                    clearInterval(this.intervalId2)
+                }
+            },200)
         }
     },
     mounted(){
+        this.day7 = new Date().getTime(); 
+        this.day6 = new Date().getTime()-(1000*60*60*24); 
+        this.day5 = new Date().getTime()-(1000*60*60*24*2); 
+        this.day4 = new Date().getTime()-(1000*60*60*24*3); 
+        this.day3 = new Date().getTime()-(1000*60*60*24*4); 
+        this.day2 = new Date().getTime()-(1000*60*60*24*5); 
+        this.day1 = new Date().getTime()-(1000*60*60*24*6); 
 
-        let myDate = new Date();
-        let FullYear = myDate.getFullYear();
-        let Month = (myDate.getMonth()+1);
-        Month = Month <10?'0'+Month:Mosnth;
-        let day7 = myDate.getDate();
-        let day6 = myDate.getDate()-1;
-        let day5 = myDate.getDate()-2;
-        let day4 = myDate.getDate()-3;
-        let day3 = myDate.getDate()-4;
-        let day2 = myDate.getDate()-5;
-        let day1 = myDate.getDate()-6;
-        
-        this.myDate7 = FullYear+'-'+Month+'-'+day7
-        this.myDate6 = FullYear+'-'+Month+'-'+day6
-        this.myDate5 = FullYear+'-'+Month+'-'+day5
-        this.myDate4 = FullYear+'-'+Month+'-'+day4
-        this.myDate3 = FullYear+'-'+Month+'-'+day3
-        this.myDate2 = FullYear+'-'+Month+'-'+day2
-        this.myDate1 = FullYear+'-'+Month+'-'+day1
-        console.log(this.myDate7)
-        console.log(this.myDate6)
-        console.log(this.myDate5)
-        console.log(this.myDate4)
-        console.log(this.myDate3)
-        console.log(this.myDate2)
-        console.log(this.myDate1)
+        //调用时间戳转日期方法
+        this.dates()
 
+        //折线图x轴日期数据
         this.detaList=[this.myDate1,this.myDate2,this.myDate3,this.myDate4,this.myDate5,this.myDate6,this.myDate7]
         console.log(this.detaList)
 
+        //折线图x轴动态加载日期数据
         this.operationAnalysisOfAssetAllocation.xAxis.data = this.detaList
-
+        //折线图订单动态加载数据
         this.operationAnalysisOfAssetAllocation.series[0].data = this.dayOrderList
+        //折线图用户动态加载数据
         this.operationAnalysisOfAssetAllocation.series[1].data = this.dayUserList
 
-
-
+        //获取商品数量
         axios.get('api/goods/goodsCount').then((response) => {
 				let res = response.data;
 				if (res.status == '0') {
@@ -256,6 +253,7 @@ export default {
 					console.log('失败' + res.msg)
 				}
         })
+        //获取用户数量
         axios.get('api/users/usersNum').then((response) => {
 				let res = response.data;
 				if (res.status == '0') {
@@ -274,6 +272,7 @@ export default {
 					console.log('失败' + res.msg)
 				}
         })
+        //获取订单数量
         axios.get('api/orders/orderNum').then((response) => {
 				let res = response.data;
 				if (res.status == '0') {
@@ -293,6 +292,7 @@ export default {
 					console.log('失败' + res.msg)
 				}
         })
+        //渲染数据
         this.timeNum()
     },
 }
