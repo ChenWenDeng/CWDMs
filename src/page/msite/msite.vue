@@ -42,14 +42,54 @@
                             </router-link>
                         </el-menu-item-group>
                     </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title"><i class="el-icon-star-on"></i>图表</template>
+                        <el-menu-item-group>
+                        <router-link to="/msite/chart">
+                            <el-menu-item index="3-1">
+                                用户分布
+                            </el-menu-item>
+                        </router-link>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-submenu index="4">
+                        <template slot="title"><i class="el-icon-edit"></i>编辑</template>
+                        <el-menu-item-group>
+                        <!-- <router-link to=""> -->
+                            <el-menu-item index="4-1">
+                                文本编辑
+                            </el-menu-item>
+                        <!-- </router-link> -->
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-submenu index="5">
+                        <template slot="title"><i class="el-icon-setting"></i>设置</template>
+                        <el-menu-item-group>
+                        <!-- <router-link to=""> -->
+                            <el-menu-item index="5-1">
+                                管理员设置
+                            </el-menu-item>
+                        <!-- </router-link> -->
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-submenu index="6">
+                        <template slot="title"><i class="el-icon-question"></i>说明</template>
+                        <el-menu-item-group>
+                        <!-- <router-link to=""> -->
+                            <el-menu-item index="6-1">
+                                说明
+                            </el-menu-item>
+                        <!-- </router-link> -->
+                        </el-menu-item-group>
+                    </el-submenu>
                 </el-menu>
             </el-aside>
         </el-container>
         <div class="view-container">
-				<transition name="router-slid" mode="out-in">
-					<router-view>
-					</router-view>
-				</transition>
+			<transition name="router-slid" mode="out-in">
+				<router-view>
+				</router-view>
+			</transition>
 		</div>
     </div>
 </template>
@@ -144,7 +184,8 @@ export default {
                     color: #fff;
                 }
                 .el-menu-item-group{
-                    background: #000;
+                    // background: #000;
+                    background: #14191f;
                     .el-menu-item:hover{
                         color: #000;
                     }
@@ -186,6 +227,9 @@ export default {
         top:0px;
         width:100%;height:30px;position:fixed;top:0;left:0;
         z-index: 2;
+    }
+    .el-menu-item-group__title{
+        padding:0px;
     }
     .el-aside{
         position:fixed;

@@ -34,6 +34,7 @@ Vue.use(VueLazyLoad,{
   loading:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547747830330&di=76fc61899c3d282a51835a4b42f3d9a4&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201511%2F25%2F20151125141303_c2LyT.thumb.700_0.gif'
 })
 
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
