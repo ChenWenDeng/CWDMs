@@ -101,6 +101,7 @@ export default {
 <style lang="scss" scoped> 
 .chart-container{
     min-height: 700px;
+    padding:0px 50px;
     background: rgb(75, 73, 73);
     h2{
         width: 100%;

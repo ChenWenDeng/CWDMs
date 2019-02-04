@@ -32,30 +32,12 @@
                 </li>
             </ul>
         </div>
-        <div class="switchs-container">
-            切换为：
-            <span :class="{tubiaoColor:!shows}" class="tubiao" @click="shows=false">
-                <span class="iconfont icon-61"></span>
-                折线图
-            </span>
-            <span :class="{tubiaoColor:shows}" class="tubiao" @click="shows=true">
-                <span class="iconfont icon-zhuzhuangtu"></span>
-                柱状图
-            </span>
-        </div>
         <div class="header-box">
-            <span><i></i>当天订单</span>
-            <span class="span2"><i></i>当天用户</span>
+            <span><i></i>当天用户</span>
+            <span class="span2"><i></i>当天订单</span>
         </div>
-        <!-- ================ 折线图  =================-->
-        <div v-if="!shows" class="power_chart">
-                <chart :options="operationAnalysisOfAssetAllocation" style="width: 1000px;height:400px" ref="echarts1" ></chart>
-        </div>
-        <!-- ================ 柱状图  =================-->
-        <div v-if="shows" class="chart-container">
-            <div class="power_chart">
-                <e-charts style="width:960px;height:400px" :options="chartOption"></e-charts>
-            </div>
+        <div class="power_chart">
+                <chart :options="operationAnalysisOfAssetAllocation" style="width: 100%;height:100%;" ref="echarts1" ></chart>
         </div>
     </div>
 </template>
@@ -64,14 +46,9 @@
 import axios from 'axios'
 //引入封装的时间戳转日期js文件
 import date from '@/assets/js/time.js'
-
-import ECharts from 'vue-echarts/components/ECharts'
-require('echarts/lib/chart/bar');
 export default {
-    components: {ECharts},
     data(){
         return{
-            shows:false,//显示图表
             goodsCount:0,//商品总数
             dayUser:0,//当天用户数量
             userCount:0,//用户总数
@@ -194,7 +171,7 @@ export default {
                         // symbol: "none",
                         showSymbol: false,
                         areaStyle: {normal: {}},
-                        data:[]
+                        data:[22, 36, 52, 34,22, 36, 52, 34]
                     },{
                         name: "新增订单",
                         type: "line",
@@ -202,93 +179,10 @@ export default {
                         // symbol: "none",
                         showSymbol: false,
                         areaStyle: {normal: {}},
-                        data:[]
+                        data:[70, 3,2,23,70, 3,2,23]
                     },
                     ]
                 },
-
-
-            ///////////////////////////柱状图
-            chartOption: {
-                
-                grid: {left: 30, top: 30, right: 30, bottom: 30},
-                xAxis: {
-                    type: 'category',
-                    axisLine: {show: false},
-                    axisTick: {show: false},
-                    axisLabel: {color: '#999'},
-                    data: []
-                },
-                yAxis: [
-                    {
-                    splitNumber: 5,
-                    scale: true,
-                    splitLine: {show: true, lineStyle: {color: ['#b6b6b6'], opacity: 0.1}},
-                    axisLine: {show: false},
-                    axisTick: {show: false},
-                    type: 'value',
-                    name: '',
-                    nameTextStyle: {
-                        fontFamily: 'MicrosoftYaHei',
-                        fontSize: 12,
-                        color: 'rgba(255,255,255,0.6)',
-                        align: 'left'
-                    },
-                    nameGap: 25,
-                    axisLabel: {formatter: '{value}', color: '#999'}
-                    }
-                ],
-                series: [
-                    {
-                    name: '当天用户',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {normal: {show: true, position: 'top', color: 'rgba(255,255,255,0.6)'}},
-                    itemStyle: {
-                        normal: {
-                        barBorderRadius: 4,
-                        color: {
-                            type: 'linear',
-                            x: 0,
-                            y: 0,
-                            x2: 0,
-                            y2: 1,
-                            colorStops: [{
-                            offset: 0, color: '#E93D3D'
-                            }, {
-                            offset: 1, color: '#EdE'
-                            }]
-                        }}},
-                    barWidth: 28,
-                    data: [],
-                    },
-                    {
-                        name:'当天订单',
-                        type:'bar',
-                        label: {normal: {show: true, position: 'top', color: 'rgba(255,255,255,0.6)'}},
-                        itemStyle: {
-                            normal: {
-                                barBorderRadius: 4,
-                                color: {
-                                    type: 'linear',
-                                    x: 0,
-                                    y: 0,
-                                    x2: 0,
-                                    y2: 1,
-                                    colorStops: [{
-                                    offset: 0, color: '#e27449'
-                                    }, {
-                                    //   offset: 1, color: '#96D056'
-                                        offset: 1, color: 'yellow'
-                                    }]
-                                }
-                            }
-                        },
-                        data:[],
-                        barWidth: 28,
-                    },
-                ]
-            }
         }
     },
     methods:{
@@ -342,20 +236,12 @@ export default {
         this.detaList=[this.myDate1,this.myDate2,this.myDate3,this.myDate4,this.myDate5,this.myDate6,this.myDate7]
         console.log(this.detaList)
 
-        //折线图 x 轴动态加载日期数据
+        //折线图x轴动态加载日期数据
         this.operationAnalysisOfAssetAllocation.xAxis.data = this.detaList
-        //柱状图 x 轴动态加载日期数据
-        this.chartOption.xAxis.data = this.detaList
-
         //折线图订单动态加载数据
-        this.operationAnalysisOfAssetAllocation.series[0].data = this.dayUserList
-        //柱状图订单动态加载数据
-        this.chartOption.series[0].data = this.dayOrderList
-
+        this.operationAnalysisOfAssetAllocation.series[0].data = this.dayOrderList
         //折线图用户动态加载数据
-        this.operationAnalysisOfAssetAllocation.series[1].data =  this.dayOrderList
-        //柱状图用户动态加载数据
-        this.chartOption.series[1].data = this.dayUserList
+        this.operationAnalysisOfAssetAllocation.series[1].data = this.dayUserList
 
         //获取商品数量
         axios.get('api/goods/goodsCount').then((response) => {
@@ -413,47 +299,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>  
-.chart-container{
-    width: 62.5rem;
-    min-height: 25rem;
-    padding:0px 1.875rem;
-    margin: 0 auto;
-    background: rgb(75, 73, 73);
-}
 .power_chart{
     width: 62.5rem;
-    height:25rem;
+    height: 25rem;
     margin: 1.25rem auto;
 }
 .home-container{
     background: #fff;
-    min-height: 61.875rem;
-    padding-bottom: 3.125rem;
+    height: 61.875rem;
     .header-box{
         width: 100%;
         text-align: center;
         display: flex;
         justify-content: center;
-        margin-top:1.25rem;
-        margin-bottom: 2.5rem;
+        margin-top:5.25rem;
         span{
             display: flex;
             align-items: center;
             i{
                 display: inline-block;
-                width: 1.375rem;
-                height: 0.8375rem;
-                border-radius: 0.3125rem;
-                margin-top: 0.0925rem;
+                width:3.125rem;
+                height: 0.3125rem;
                 background: rgb(230, 28, 28);
             }
         }
         .span2{
             margin-left: 1rem;
             i{
-                width: 1.375rem;
-                height: 0.8375rem;
-                border-radius: 0.3125rem;
                 background: rgb(226, 117, 54);
             }
         }
@@ -493,7 +365,7 @@ export default {
                     align-items: center;
                     justify-content: center;
                     min-width: 7.375rem;
-                    height: 6.25rem;;
+                    height: 100px;;
                     padding: 0.625rem;
                     margin-left: 0.9375rem;
                     background:rgb(90, 100, 100);
@@ -502,32 +374,16 @@ export default {
                 }
             }
             .day-li{
-                width: 25.625rem;
+                width: 410px;
                 background: rgb(30, 119, 122);
                 .days-li{
-                    width: 14.375rem;
+                    width: 230px;
                     background: rgb(205, 210, 211);
                     font-size: 50px;
                     color:rgb(248, 94, 94);
                 }
             }
        }
-    }
-    .switchs-container{
-        width: 100%;
-        text-align: right;
-        padding: 1.25rem;
-        padding-right: 9.375rem;
-        margin-top: 3.125rem;
-        .tubiao{
-            margin-right: 1.25rem;
-            cursor:pointer;
-            font-size: 0.8125rem;
-            color: #999;
-        }
-        .tubiaoColor{
-            color: rgb(37, 128, 189);
-        }
     }
 }
 </style>
