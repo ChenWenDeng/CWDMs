@@ -10,6 +10,7 @@ const orderList = () => import('./../page/msite/orderList/orderList') //后台�
 const orderDetails = () => import('./../page/msite/orderList/orderDetails/orderDetails') //后台系统订单列表订单详情
 const addGoods = () => import('./../page/msite/addGoods/addGoods') //后台系统添加商品
 const chart = () => import('./../page/msite/chart/chart') //后台系统用户分布
+const explain = () => import('./../page/msite/explain/explain') //后台系统说明
 
 Vue.use(Router)
 
@@ -58,6 +59,10 @@ export default new Router({
         {
           path:'/msite/chart',
           component: chart
+        },
+        {
+          path:'/msite/explain',
+          component: explain
         },
       ]
     },

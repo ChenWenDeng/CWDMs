@@ -75,11 +75,11 @@
                     <el-submenu index="6">
                         <template slot="title"><i class="el-icon-question"></i>说明</template>
                         <el-menu-item-group>
-                        <!-- <router-link to=""> -->
+                        <router-link to="/msite/explain">
                             <el-menu-item index="6-1">
                                 说明
                             </el-menu-item>
-                        <!-- </router-link> -->
+                        </router-link>
                         </el-menu-item-group>
                     </el-submenu>
                 </el-menu>
